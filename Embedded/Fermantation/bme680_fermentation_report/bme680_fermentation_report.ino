@@ -15,11 +15,11 @@
 Adafruit_BME680 bme; // I2C
 
 // Wi-Fi credentials
-const char* ssid = "yourSSID";       // Replace with your WiFi SSID
-const char* password = "yourPASSWORD"; // Replace with your WiFi password
+const char* ssid = "";
+const char* password = "";
 
 // Server endpoint
-const String serverUrl = "http://ec2-16-171-28-128.eu-north-1.compute.amazonaws.com:8080/{1234}/report/fermentation";  // Replace with your server IP/URL and device serial number
+const String serverUrl = "http://ec2-16-171-28-128.eu-north-1.compute.amazonaws.com:8080/{1234}/report/fermentation";
 
 void setup() {
   Serial.begin(9600);
@@ -57,7 +57,7 @@ void loop() {
   // Read the temperature
   float temperature = bme.temperature;
 
-  // Get the current time (you could use a real-time clock or simply millis)
+  // Get the current time
   unsigned long currentTime = millis();
 
   // Print data to serial monitor
@@ -85,9 +85,9 @@ void loop() {
 
     // Check response
     if (httpResponseCode > 0) {
-      String response = http.getString(); // Get the response to the request
-      Serial.println(httpResponseCode);   // Print return code
-      Serial.println(response);           // Print response from the server
+      String response = http.getString();
+      Serial.println(httpResponseCode);
+      Serial.println(response);
     } else {
       Serial.print("Error on sending POST: ");
       Serial.println(httpResponseCode);
@@ -97,5 +97,5 @@ void loop() {
     http.end();
   }
 
-  delay(2000); // Wait for 2 seconds before sending the next reading
+  delay(2000);
 }
